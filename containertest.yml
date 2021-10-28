@@ -1,0 +1,16 @@
+---
+-
+  name: COntainer testing playbook
+  hosts: "all"
+ 
+  tasks:
+    -
+      name: Creating a dummy container
+      command: "docker container run -itd --name=test -p 82:80 yogeshraheja/yogeshk8stest:latest"
+    -
+      name: Listing containers
+      command: "docker container ls -a"
+      register: containerlist
+    -
+      name: Listing container
+      debug: var=containerlist
