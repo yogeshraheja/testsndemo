@@ -1,0 +1,42 @@
+---
+-
+  name: This playbook is for docker setup
+  hosts: "all"
+
+  tasks:
+    -
+      name: Removing old packages if any
+      yum:
+        name: 
+          - docker 
+          - docker-client
+          - docker-client-latest
+          - docker-common
+          - docker-latest 
+          - docker-latest-logrotate   
+          - docker-logrotate 
+          - docker-engine 
+        state: absent
+    -
+      name: Installing pre-reqs
+      yum:
+        name: yum-utils
+        state: present
+    -
+      name: Setting repo's
+      get_url:
+        dest: /etc/yum.repos.d/docker-ce.repo
+        url: https://download.docker.com/linux/centos/docker-ce.repo
+    -
+      name: Installing docker
+      yum:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+    - 
+      name: Starting and Enabling my Docker Services
+      service:
+        name: docker
+        state: started
+        enabled: yes
